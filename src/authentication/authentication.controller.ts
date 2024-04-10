@@ -94,6 +94,7 @@ export class AuthenticationController {
 
   @Post('updatePassword')
   @ApiProperty({type:updatePasswordDTO})
+  @ApiResponse({ status: 200, description: 'Success', type: refeshTokenResponseDto })
   @UsePipes(ValidationPipe)
   async updatePassword(
     @Req() request: Request,
