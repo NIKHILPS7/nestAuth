@@ -10,3 +10,4 @@ export class CreateHomeHeaderDTO {
   @IsNotEmpty()
   backgroundImage: string;
 }
+   

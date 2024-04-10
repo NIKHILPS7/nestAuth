@@ -18,6 +18,12 @@ export class CreateUserDTO {
 
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
+  proPicture: string;
+
+  
+  @ApiProperty()
+  @IsString()
   location: string;
 
   @ApiProperty()

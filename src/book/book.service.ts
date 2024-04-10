@@ -3,29 +3,51 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Book } from '../interfaces/book.interface';
 import { CreateBookDto } from 'src/requestDto/createBook.dto';
+import { Books, BooksDocument } from 'src/schemas/book.schema';
 
 @Injectable()
 export class BookService {
-  constructor(@InjectModel('Book') private bookModel: Model<Book>) {}
+    responseHandler: any;
+    constructor(@InjectModel(Books.name) private bookModel: Model<BooksDocument>) { }
 
-  async findAll(): Promise<Book[]> {
-    return this.bookModel.find().exec();
-  }
+    async getAllBooks() {
+        try {
+            const books = this.bookModel.find({}).exec()
 
-  async findOne(id: string): Promise<Book> {
-    return this.bookModel.findOne({ _id: id }).exec();
-  }
+            return books
 
-  async create(book: CreateBookDto): Promise<Book> {
-    const createdBook = new this.bookModel(book);
-    return createdBook.save();
-  }
+        } catch (error) {
+            this.responseHandler.errorformating('getAllBooks', error.message);
+        }
+        return {
+            message: 'something went wrong',
+            statusCode: 200,
+        };
+    }
 
-  async update(id: string, book: Book): Promise<Book> {
-    return this.bookModel.findByIdAndUpdate(id, book, { new: true }).exec();
-  }
+    async createBook(input: CreateBookDto) {
+        try {
+            const bookData = new Books();
+            bookData.name = input.name;
+            bookData.frontImage = input.frontImage;
+            bookData.description = input.description;
+            const createResponse = await this.bookModel.create(bookData);
 
-  async delete(id: string): Promise<Book> {
-    return this.bookModel.findByIdAndDelete(id).exec();
-  }
+            if (createResponse) {
+                const resposneData = {
+                    message: 'book created successfully',
+                    statusCode: 200,
+                };
+                return resposneData;
+            }
+
+        } catch (err) {
+            this.responseHandler.errorformating('createUser', err.message);
+        }
+        return {
+            message: 'something went wrong',
+            statusCode: 200,
+        };
+    }
+
 }

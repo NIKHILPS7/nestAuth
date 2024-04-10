@@ -16,9 +16,11 @@ import { ResponseHandlerService } from './response-handler/response-handler.serv
 import { Logs, LogsSchema } from './schemas/Logs.schema';
 import { settings, SettinsSchema } from './schemas/Settings.schema';
 import { UserCredentials, UserCredentialsSchema } from './schemas/UserCredentials.schema';
+import { Books, BooksSchema } from './schemas/book.schema';
 
 @Module({
   imports: [MongooseModule.forFeature([  { name: Logs.name, schema: LogsSchema },
+    { name: Books.name, schema: BooksSchema },
     { name: UserCredentials.name, schema: UserCredentialsSchema },
     { name: settings.name, schema: SettinsSchema }]),BookModule,  DatabaseModule, AuthenticationModule,
     ResponseHandlerModule,

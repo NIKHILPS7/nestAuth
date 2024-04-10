@@ -46,6 +46,7 @@ export class AuthenticationService {
         const hashedPassword = await bcrypt.hash(input.password, saltOrRounds);
         const userData = new UserCredentials();
         userData.emailId = emailId;
+        userData.proPicture=input.proPicture;
         userData.password = hashedPassword;
         userData.fullName = input.fullName;
         userData.location = input.location;
@@ -114,11 +115,11 @@ export class AuthenticationService {
           token: access_token,
           role: user.role,
           emailId: user.emailId,
-          isEmailVerified: user.isVerified,
+          proPicture:user.proPicture,
         };
         return {
           status: 200,
-          message: 'user deleted successfully',
+          message: 'success',
           response: resposneData,
         };
       } else {

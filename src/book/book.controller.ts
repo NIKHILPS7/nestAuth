@@ -7,53 +7,42 @@ import {
     Body,
     Param,
     UseGuards,
+    Req,
+    Res,
+    UsePipes,
+    ValidationPipe,
   } from '@nestjs/common';
   import { BookService } from './book.service';
   import { Book } from '../interfaces/book.interface';
-  import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+  import { ApiBearerAuth, ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateBookDto } from 'src/requestDto/createBook.dto';
 import { AuthGuardService } from 'src/authGuardservice/auth.guard';
 import { Roles } from 'src/authGuardservice/roles.decorator';
+import { CreateUserDTO } from 'src/requestDto/createUser.dto';
+import { createUserResponseDto } from 'src/responseDto/createUserResponse.dto';
+import { Request, Response } from 'express';
   @ApiTags('book')
   @Controller('book')
   export class BookController {
     constructor(private readonly bookService: BookService) {}
   
-    @Get('allbooks')
-    @Roles(['User'])
-    @UseGuards(AuthGuardService)
-    async findAll(): Promise<Book[]> {
-      return this.bookService.findAll();
+    @Get('getAllBooks')
+    // @Roles(['User'])
+    // @UseGuards(AuthGuardService)
+    async getAllBooks() {
+      return this.bookService.getAllBooks();
     }
   
-    @Get(':id')
- 
-    @ApiBearerAuth()
-    async findOne(@Param('id') id: string): Promise<Book> {
-      return this.bookService.findOne(id);
-    }
+    @Post('createBook')
   
-    @Post()
-   
-    @ApiBearerAuth()
-    async create(@Body() book: CreateBookDto): Promise<Book> {
-      return this.bookService.create(book);
-    }
-  
-    @Put(':id')
-
-    @ApiBearerAuth()
-    async update(
-      @Param('id') id: string,
-      @Body() book: Book,
-    ): Promise<Book> {
-      return this.bookService.update(id, book);
-    }
-  
-    @Delete(':id')
- 
-    @ApiBearerAuth()
-    async delete(@Param('id') id: string): Promise<Book> {
-      return this.bookService.delete(id);
-    }
+  @ApiProperty({type:CreateBookDto})
+  @ApiResponse({ status: 200, description: 'Success',type:createUserResponseDto })
+  @UsePipes(ValidationPipe)
+  async createUser(
+    @Req() request: Request,
+    @Res() response: Response,
+    @Body() input: CreateBookDto,
+  ) {
+    response.send(await this.bookService.createBook(input));
+  }
   }

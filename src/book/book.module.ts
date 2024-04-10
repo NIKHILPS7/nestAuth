@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { BookController } from './book.controller';
 import { BookService } from './book.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { BookSchema } from '../schemas/book.schema';
+import { Books, BooksSchema } from '../schemas/book.schema';
 import { DatabaseModule } from '../database/database.module';
 import { AuthGuardService } from 'src/authGuardservice/auth.guard';
 import { HelpersService } from 'src/helpers/helpers.service';
@@ -14,7 +14,7 @@ import { settings, SettinsSchema } from 'src/schemas/Settings.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: 'Book', schema: BookSchema },{ name: UserCredentials.name, schema: UserCredentialsSchema }, { name: settings.name, schema: SettinsSchema },
+    MongooseModule.forFeature([{ name: Books.name, schema: BooksSchema },{ name: UserCredentials.name, schema: UserCredentialsSchema }, { name: settings.name, schema: SettinsSchema },
     { name: Logs.name, schema: LogsSchema },]),
     DatabaseModule,
   ],

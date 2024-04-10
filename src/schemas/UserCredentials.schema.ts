@@ -18,6 +18,9 @@ export class UserCredentials {
   fullName: string;
 
   @Prop({ type: 'string', nullable: true, default: '' })
+  proPicture: string;
+
+  @Prop({ type: 'string', nullable: true, default: '' })
   location: string;
 
   @Prop({ type: 'string', nullable: false })
