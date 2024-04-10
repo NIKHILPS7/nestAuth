@@ -118,7 +118,7 @@ export class AuthenticationService {
         };
         return {
           status: 200,
-          message: 'success',
+          message: 'user deleted successfully',
           response: resposneData,
         };
       } else {
@@ -153,7 +153,7 @@ export class AuthenticationService {
       if (user) {
         return {
           statusCode: 200,
-          message: 'success',
+          message: 'user details edited successfully',
         };
       } else {
         throw new HttpException('something went wrong', 403);
@@ -208,7 +208,10 @@ export class AuthenticationService {
        const forgotMailOTP= await this.forgotMail(user._id.toString(), user.emailId, user.fullName);
         return {
           statusCode: 200,
-          data: forgotMailOTP,
+          message: 'success',
+          response:{
+            otp:forgotMailOTP
+          }
         };
       } else {
         throw new HttpException('something went wrong', 403);
@@ -227,14 +230,8 @@ export class AuthenticationService {
       const sixDigitRandomNumber = this.helperService.generateRandomNumber();
       await this.updateforgototpforuser(userId, sixDigitRandomNumber);
 
+      return sixDigitRandomNumber.toString()
       
-      const emaildata = {
-        subject: 'Login otp',
-        otp: 
-          sixDigitRandomNumber.toString(),
-      };
-      const emailResponse = emaildata;
-      return emailResponse;
     } catch (err) {
       this.responseHandler.errorformating('forgotMail', err.message);
     }

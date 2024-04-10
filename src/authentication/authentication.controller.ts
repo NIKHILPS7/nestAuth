@@ -23,6 +23,13 @@ import { Roles } from 'src/authGuardservice/roles.decorator';
 import { ApiProperty, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RefreshTokenDTO } from 'src/requestDto/refreshToken.dto';
 import { refeshTokenResponseDto } from 'src/responseDto/resfreshTokenResponse.dto';
+import { createUserResponseDto } from 'src/responseDto/createUserResponse.dto';
+import { userLoginResponseDto } from 'src/responseDto/userLoginResponse.dto';
+import { deleteUserResponseDto } from 'src/responseDto/deleteUserResponse.dto';
+import { editUserResponseDto } from 'src/responseDto/editUserResponse.dto';
+import { forgotPasswordResponseDto } from 'src/responseDto/forgotPasswordResponse.dto';
+import { forgotOTPvefifyResponseDto } from 'src/responseDto/forgotOTPverifyResponse.dto';
+import { updartePasswordResponseDto } from 'src/responseDto/updatePasswordResponse.dto';
 @ApiTags('auth')
 @Controller('auth')
 export class AuthenticationController {
@@ -31,6 +38,7 @@ export class AuthenticationController {
   @Post('createUser')
   
   @ApiProperty({type:CreateUserDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:createUserResponseDto })
   @UsePipes(ValidationPipe)
   async createUser(
     @Req() request: Request,
@@ -42,6 +50,7 @@ export class AuthenticationController {
 
   @Post('userLogin')
   @ApiProperty({type:LoginDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:userLoginResponseDto })
   @UsePipes(ValidationPipe)
   async userLogin(
     @Req() request: Request,
@@ -52,6 +61,7 @@ export class AuthenticationController {
   }
   @Post('deleteUser')
   @ApiProperty({type:deleteUserDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:deleteUserResponseDto })
   @UsePipes(ValidationPipe)
   async deleteUser(
     @Req() request: Request,
@@ -62,6 +72,7 @@ export class AuthenticationController {
   }
   @Post('editUser')
   @ApiProperty({type:editUserDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:editUserResponseDto })
   @UsePipes(ValidationPipe)
   async editUser(
     @Req() request: Request,
@@ -70,8 +81,10 @@ export class AuthenticationController {
   ) {
     response.send(await this.authService.editUser(input));
   }
+
   @Post('forgotPasswordEmail')
   @ApiProperty({type:forgotPasswordEmailDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:forgotPasswordResponseDto })
   @UsePipes(ValidationPipe)
   async forgotPasswordEmail(
     @Req() request: Request,
@@ -83,6 +96,7 @@ export class AuthenticationController {
 
   @Post('forgotOtpVerify')
   @ApiProperty({type:forgotOtpVerfifyDTO})
+  @ApiResponse({ status: 200, description: 'Success',type:forgotOTPvefifyResponseDto })
   @UsePipes(ValidationPipe)
   async forgotOtpVerify(
     @Req() request: Request,
@@ -94,7 +108,7 @@ export class AuthenticationController {
 
   @Post('updatePassword')
   @ApiProperty({type:updatePasswordDTO})
-  @ApiResponse({ status: 200, description: 'Success', type: refeshTokenResponseDto })
+  @ApiResponse({ status: 200, description: 'Success',type:updartePasswordResponseDto })
   @UsePipes(ValidationPipe)
   async updatePassword(
     @Req() request: Request,
@@ -103,6 +117,7 @@ export class AuthenticationController {
   ) {
     response.send(await this.authService.updatePassword(input));
   }
+
 
   @Post('refreshToken')
   @ApiProperty({type:RefreshTokenDTO})
