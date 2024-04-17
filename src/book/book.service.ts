@@ -4,11 +4,14 @@ import { Model } from 'mongoose';
 import { Book } from '../interfaces/book.interface';
 import { CreateBookDto } from 'src/requestDto/createBook.dto';
 import { Books, BooksDocument } from 'src/schemas/book.schema';
+import { ResponseHandlerService } from 'src/response-handler/response-handler.service';
 
 @Injectable()
 export class BookService {
-    responseHandler: any;
-    constructor(@InjectModel(Books.name) private bookModel: Model<BooksDocument>) { }
+
+    constructor(@InjectModel(Books.name) 
+    private bookModel: Model<BooksDocument>, 
+    private responseHandler: ResponseHandlerService) { }
 
     async getAllBooks() {
         try {
@@ -42,6 +45,7 @@ export class BookService {
             }
 
         } catch (err) {
+            console.log(err,'eerrrr')
             this.responseHandler.errorformating('createUser', err.message);
         }
         return {

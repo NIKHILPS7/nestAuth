@@ -17,5 +17,5 @@ export class Books {
  
 }
 
-export const BooksSchema =
+export const BooksSchema = 
   SchemaFactory.createForClass(Books);
